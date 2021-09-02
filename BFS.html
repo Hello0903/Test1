@@ -208,32 +208,43 @@ body {
         
        const lines = reader.result.split('\n').map(function(line){
           return line.split(/(\s)/);
-        
         });
-        
-      
+         
+
+       
 
         const line = reader.result.split('\n');
-        console.log(line[1]);
-        var a = line[0].split(/(\s)/);
-        console.log('lay gia tri dau: '+a[0]);
-      //tao dinh
-       for(let i = 0 ; i < line.length - 1 ; i++){
-        var a = lines[i].shift();
+        // console.log(line[1]);
+        // var a = line[0].split(/(\s)/);
+        // console.log('lay gia tri dau: '+a[0]);
+        for(let i = 0 ; i < line.length -1; i++){
+        var a = line[i].split(/(\s)/);
         var b = a[0];
-         data[b] = new diem(b);
+        data[b] = new diem(b);
          if(i==0){
-          begin = a;
+          begin = b; console.log('gia tri begin : '+ begin); 
          }
          console.log('Tao diem: '+b);
-    }
+        
+        }
+        console.log(data);
+      //tao dinh
+    //    for(let i = 0 ; i < line.length - 1 ; i++){
+    //     var a = lines[i].shift();
+    //     var b = a[0];
+    //      data[b] = new diem(b);
+    //      if(i==0){
+    //       begin = a;
+    //      }
+    //      console.log('Tao diem: '+b);
+    // }
 
 
       //console.log(line);
        for(let i = 0 ; i < line.length - 1 ; i++){
-       var a = line[i];
-        console.log(a.length);
-          for(let j = 0 ; j < a.length/2 ;j++){
+       var a = line[i].split(/(\s)/);
+        console.log(a);
+          for(let j = 0 ; j < a.length/2-1 ;j++){
                  
             if(j!=0){
              var f = '';
@@ -256,7 +267,7 @@ body {
          diemtim = sub[2];
       console.log(diedau+''+diemtim);
       // console.log('gia tri D:'+data['D'].getcountnode());
- BFSFunction(diedau,diemtim);    
+     BFSFunction(diedau,diemtim);    
        }
  
    reader.readAsText(input.files[0])},false);
@@ -274,11 +285,8 @@ var strtim ='';
        var timduong = [];
        var n = data.length;
        //console.log(data.length);
-       var datapush = data['A'].dinh;
-       q_data.push(begin);
-       //console.log(data);
-
-      console.log(data.length);  
+       var datapush = data[begin].dinh;
+       q_data.push(datapush);
        var i = 1;
 // console.log(q_data.shift());
    
