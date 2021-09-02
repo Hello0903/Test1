@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>duyệt cây</title>
+</head>
+<style type="text/css">
+  #design{
+    border: 1px soild;
+    text-align: center;
+    margin-left: 40%;
+    margin-top: 15%;
+  }
+ table, td, tr{
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+ /* body{
+   background-image:url('https://i.ytimg.com/vi/1w-rLKb5Cc8/maxresdefault.jpg') ; 
+   background-repeat: no-repeat;
+   background-size: cover;
+  */}
+
+</style>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 100%;
+  left: 0;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content .header {
+  background: red;
+  padding: 16px;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  background-color: #ccc;
+  height: 250px;
+}
+
+.column a {
+  float: none;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.column a:hover {
+  background-color: #ddd;
+  size: 24%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+<body>
+<div class="navbar">
+  <a href="#home">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Duyệt cây 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <div class="header">
+        <h2>Các thuật toán</h2>
+      </div>   
+      <div class="row">
+        <div class="column">
+          <h3>Tìm theo chiều rộng</h3>
+          <a href="BFS.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+        <div class="column">
+          <h3>Tìm theo chiều sâu</h3>
+          <a href="DFS.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+        <div class="column">
+          <h3>Tìm kiếm tốt nhất đầu tiên</h3>
+          <a href="TNDT.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+
+        <div class="column">
+          <h3>Tìm kiếm theo phương pháp leo đồi</h3>
+          <a href="TTLeoDoi.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+
+
+<div id="design">
+  <p style="text-align: left;">Tìm kiếm tốt nhất đầu tiên</p>
+<table>
+  <tr>
+	<th>Xét đỉnh</th>
+	<th>Kề</th>
+	<th>Danh sách</th>
+</tr>
+	<tbody id="bfsdata"></tbody>
+</table>
+</div>
+  
+</body>
+</html>
+<script type="text/javascript">
+	class diem{
+     constructor(dinh,thamso){
+     this.dinh = dinh;
+     this.thamso =  thamso;
+     this.nodecon = [];
+     }
+    
+      addNode(giatri){
+       this.nodecon.push(giatri);
+        // for(let i = 0 ; i < this.nodecon.length; i++){
+        //   for(let j = i ; j < this.nodecon.length; j++){
+        //     if(data[this.nodecon[i]]->thamso > data[this.nodecon[j]]->thamso){
+        //       var temp = this.nodecon[i];
+        //       this.nodecon[i] = this.nodecon[j];
+        //       this.nodecon[j] = temp;
+        //     }
+        //   }
+        // } 
+       
+       }
+        getnode(id){
+       	return this.nodecon[id];
+       }
+     
+}
+ var data  = [];
+   data['A'] = new diem('A',20);
+   data['A'].addNode('C');
+   data['A'].addNode('D');
+   data['A'].addNode('E');
+   data['B'] = new diem('B',0);
+   data['C'] = new diem('C',15);
+   data['C'].addNode('F');
+   data['D'] = new diem('D',6);
+   data['D'].addNode('F');
+   data['D'].addNode('I');
+   data['E'] = new diem('E',7);
+   data['E'].addNode('G');
+   data['E'].addNode('K');
+   data['F'] = new diem('F',10);
+   data['F'].addNode('B');
+   data['G'] = new diem('G',5);
+   data['G'].addNode('B');
+   data['G'].addNode('H');
+   data['H'] = new diem('H',3);
+   data['H'].addNode('B');
+   data['I'] = new diem('I',8);
+   data['I'].addNode('B');
+   data['I'].addNode('G');
+   data['K'] = new diem('K',12);
+
+  
+
+
+TotNhatDauTien('A','B');
+      function TotNhatDauTien(dinhdau , dinhcuoi){
+       var q_data = [];
+       var danhdau = [];
+       var n = data.length;
+       console.log(data.length);
+       q_data.push(data['A'].dinh)
+      console.log(data.length);  
+       var i = 1;
+// console.log(q_data.shift());
+   
+  // var xetdinh = q_data.shift(); 
+   //console.log(data[xetdinh].nodecon.length);
+  var str = '';
+    while(q_data.length > 0){
+         var xetdinh = q_data.shift(); 
+         var giatri = data[xetdinh].thamso;
+         var stringhtml = '<tr>';
+         stringhtml+= '<td>'+xetdinh+''+giatri+'</td><td>';
+         if(xetdinh == dinhcuoi) {
+            str += '<tr><td>'+xetdinh+''+giatri+'</td><td>Kết thúc</td><td></td></tr>';
+            break;
+         }
+         var k = data[xetdinh].nodecon.length;
+         var l = [];
+        for(let j = 0 ; j < k ; j++){
+            q_data.push(data[xetdinh].getnode(j));
+           //  l.push(data[xetdinh].getnode(j));
+           //  l.sort(function(a,b){return data[a].thamso-data[b].thamso});
+             q_data.sort(function(a,b){return data[a].thamso-data[b].thamso});
+            stringhtml+= data[xetdinh].getnode(j)+''+data[data[xetdinh].getnode(j)].thamso;
+        }
+
+         //   var dsL ='';
+         //    for(let sub = 0 ; sub < l.length ; sub ++ ){
+         //    dsL += ''+q_data[sub]+""+data[q_data[sub]].thamso+',';
+         // }
+
+
+         //  stringhtml+='</td><td>'+ dsL+'</td>'
+        console.log(stringhtml);
+            
+         var strsub = '';
+         for(let sub = 0 ; sub < q_data.length ; sub ++ ){
+          strsub += ''+q_data[sub]+""+data[q_data[sub]].thamso+',';
+         }
+       str += stringhtml+'<td>'+strsub+'</td></tr>';
+      //  break;
+        
+
+      i++;
+    }  
+     document.getElementById("bfsdata").innerHTML= str;
+
+      }
+
+</script>

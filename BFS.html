@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>duyệt cây</title>
+</head>
+<style type="text/css">
+  #design{
+    border: 1px soild;
+    text-align: center;
+    margin-left: 40%;
+    margin-top: 15%;
+  }
+ table, td, tr{
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+</style>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 100%;
+  left: 0;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content .header {
+  background: red;
+  padding: 16px;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  background-color: #ccc;
+  height: 250px;
+}
+
+.column a {
+  float: none;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.column a:hover {
+  background-color: #ddd;
+  size: 24%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+<body>
+
+<div class="navbar">
+  <a href="#home">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Duyệt cây 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <div class="header">
+        <h2>Các thuật toán</h2>
+      </div>   
+      <div class="row">
+        <div class="column">
+          <h3>Tìm theo chiều rộng</h3>
+          <a href="BFS.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+        <div class="column">
+          <h3>Tìm theo chiều sâu</h3>
+          <a href="DFS.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+        <div class="column">
+          <h3>Tìm kiếm tốt nhất đầu tiên</h3>
+          <a href="TNDT.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+
+        <div class="column">
+          <h3>Tìm kiếm theo phương pháp leo đồi</h3>
+          <a href="TTLeoDoi.html" target="_blank">Link 1</a>
+          <a href="#">Link 2</a>
+          <a href="#">Link 3</a>
+        </div>
+      </div>
+    </div>
+  </div> 
+</div>
+<input type="file" name="">
+
+<div id="design">
+  <p style="text-align: left;">Tìm kiếm theo chiều rộng</p>
+<table>
+	<th>Xét đỉnh</th>
+	<th>Kề</th>
+	<th>Danh sách</th>
+	<tbody id="bfsdata"></tbody>
+</table>
+  <p id="duongdi" style="text-align: left;"></p>
+</div>
+  
+</body>
+</html>
+<script type="text/javascript">
+	class diem{
+     constructor(dinh){
+     this.dinh = dinh; 
+     this.nodecon = [];
+     }
+    
+      addNode(giatri){
+        this.nodecon.push(giatri);
+       }
+        getnode(id){
+       	return this.nodecon[id];
+       }
+       getcountnode(){
+        return this.nodecon.length;
+       }
+     
+}
+ var data  = [];
+ var begin = '';
+ readfiles();
+
+ function readfiles(){
+  var diedau ='';
+  var diemtim ='';
+  const input = document.querySelector('input[type="File"]');
+  input.addEventListener('change',function(e){
+      console.log(input.files);
+      const reader = new FileReader();
+      reader.onload = function(){
+        
+       const lines = reader.result.split('\n').map(function(line){
+          return line.split(/(\s)/);
+        
+        });
+        
+      
+
+        const line = reader.result.split('\n');
+        console.log(line[1]);
+        var a = line[0].split(/(\s)/);
+        console.log('lay gia tri dau: '+a[0]);
+      //tao dinh
+       for(let i = 0 ; i < line.length - 1 ; i++){
+        var a = lines[i].shift();
+        var b = a[0];
+         data[b] = new diem(b);
+         if(i==0){
+          begin = a;
+         }
+         console.log('Tao diem: '+b);
+    }
+
+
+      //console.log(line);
+       for(let i = 0 ; i < line.length - 1 ; i++){
+       var a = line[i];
+        console.log(a.length);
+          for(let j = 0 ; j < a.length/2 ;j++){
+                 
+            if(j!=0){
+             var f = '';
+             f= a[0];
+             var l = '';
+             l = a[j*2];
+        
+             console.log('add con'+f+'->'+l);
+              
+              data[f].addNode(a[j*2]);
+            
+                 
+           }
+          }
+        
+
+        }
+        var sub = line[line.length-1];
+         diedau = sub[0];
+         diemtim = sub[2];
+      console.log(diedau+''+diemtim);
+      // console.log('gia tri D:'+data['D'].getcountnode());
+ BFSFunction(diedau,diemtim);    
+       }
+ 
+   reader.readAsText(input.files[0])},false);
+ 
+ }
+  
+var strtim ='';
+
+//BFSFunction('A','H');
+      function BFSFunction(dinhdau , dinhcuoi){
+       
+      //     console.log('gia tri D:'+data['D'].getcountnode());
+       var q_data = [];
+       var danhdau = [];
+       var timduong = [];
+       var n = data.length;
+       //console.log(data.length);
+       var datapush = data['A'].dinh;
+       q_data.push(begin);
+       //console.log(data);
+
+      console.log(data.length);  
+       var i = 1;
+// console.log(q_data.shift());
+   
+  // var xetdinh = q_data.shift(); 
+   //console.log(data[xetdinh].nodecon.length);
+  var str = '';
+    while(q_data.length > 0){
+         var xetdinh = q_data.shift(); 
+         var stringhtml = '<tr>';
+         stringhtml+= '<td>'+xetdinh+'</td><td>';
+         if(xetdinh == dinhcuoi) {
+          //timduong[dinhcuoi] = xetdinh;
+            str += '<tr><td>'+xetdinh+'</td><td>Kết thúc</td></tr>';
+            duongdi(dinhdau,dinhcuoi,timduong);
+            break;
+         }
+          console.log(xetdinh);
+         var k = data[xetdinh].getcountnode();
+
+        for(let j = 0 ; j < k ; j++){
+          timduong[data[xetdinh].getnode(j)] = xetdinh;
+            q_data.push(data[xetdinh].getnode(j));
+            stringhtml+= data[xetdinh].getnode(j);
+        }
+           stringhtml+='</td>'
+        console.log(stringhtml);
+ 
+
+       str += stringhtml+'<td>'+q_data.toString()+'<td></tr>';
+      //  break;
+        
+
+      i++;
+    }  
+     document.getElementById("bfsdata").innerHTML= str;
+    document.getElementById("duongdi").innerHTML= "Đường đi: "+strtim;
+      }
+
+     
+function duongdi(dau,cuoi , timduong){
+  
+   if(timduong[cuoi] == dau) {
+    strtim += dau +'->'+ cuoi; 
+   //  console.log(strtim);
+    return;
+  }
+  
+  duongdi(dau,timduong[cuoi],timduong);
+   strtim += '->'+cuoi+'';
+
+}
+  
+
+//console.log('gia tri cua s:'+s);
+</script>
