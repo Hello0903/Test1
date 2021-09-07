@@ -1,0 +1,11 @@
+A-20 C D E
+B-0
+C-15 F
+D-6 F I
+E-7 G K
+F-10 B
+G-5 B H
+H-3 B
+I-8 B G
+K-12
+A B
