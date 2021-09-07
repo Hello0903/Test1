@@ -164,6 +164,7 @@ body {
     </div>
   </div> 
 </div>
+<input type="file" name="">
 
 
 <div id="design">
@@ -175,6 +176,7 @@ body {
 	<th>Danh sách</th>
 	<tbody id="bfsdata"></tbody>
 </table>
+ <p id="duongdi" style="text-align: left;"></p>
 </div>
   
 </body>
@@ -206,38 +208,103 @@ body {
      
 }
  var data  = [];
-   data['A'] = new diem('A',20);
-   data['A'].addNode('C');
-   data['A'].addNode('D');
-   data['A'].addNode('E');
-   data['B'] = new diem('B',0);
-   data['C'] = new diem('C',15);
-   data['C'].addNode('F');
-   data['D'] = new diem('D',6);
-   data['D'].addNode('F');
-   data['D'].addNode('I');
-   data['E'] = new diem('E',7);
-   data['E'].addNode('G');
-   data['E'].addNode('K');
-   data['F'] = new diem('F',10);
-   data['F'].addNode('B');
-   data['G'] = new diem('G',5);
-   data['G'].addNode('B');
-   data['G'].addNode('H');
-   data['H'] = new diem('H',3);
-   data['H'].addNode('B');
-   data['I'] = new diem('I',8);
-   data['I'].addNode('B');
-   data['I'].addNode('G');
-   data['K'] = new diem('K',12);
+   // data['A'] = new diem('A',20);
+   // data['A'].addNode('C');
+   // data['A'].addNode('D');
+   // data['A'].addNode('E');
+   // data['B'] = new diem('B',0);
+   // data['C'] = new diem('C',15);
+   // data['C'].addNode('F');
+   // data['D'] = new diem('D',6);
+   // data['D'].addNode('F');
+   // data['D'].addNode('I');
+   // data['E'] = new diem('E',7);
+   // data['E'].addNode('G');
+   // data['E'].addNode('K');
+   // data['F'] = new diem('F',10);
+   // data['F'].addNode('B');
+   // data['G'] = new diem('G',5);
+   // data['G'].addNode('B');
+   // data['G'].addNode('H');
+   // data['H'] = new diem('H',3);
+   // data['H'].addNode('B');
+   // data['I'] = new diem('I',8);
+   // data['I'].addNode('B');
+   // data['I'].addNode('G');
+   // data['K'] = new diem('K',12);
+
+//console.log(data);
+readfiles();
+
+ function readfiles(){
+  var diedau ='';
+  var diemtim ='';
+  const input = document.querySelector('input[type="File"]');
+  input.addEventListener('change',function(e){
+      console.log(input.files);
+      const reader = new FileReader();
+      reader.onload = function(){
+        
+       const lines = reader.result.split('\n').map(function(line){
+          return line.split(/(\s)/);
+        });
+        const line = reader.result.split('\n');
+        // console.log(line[1]);
+        // var a = line[0].split(/(\s)/);
+        // console.log('lay gia tri dau: '+a[0]);
+       //add dinh
+        for(let i = 0 ; i < line.length -1; i++){
+        var a = line[i].split(/(\s)/);
+        var b = a[0].split('-');
+         data[b[0]] = new diem(b[0],parseInt(b[1]));
+          if(i==0){
+           begin = b; console.log('gia tri begin : '+ begin); 
+          }
+         console.log('Tao diem: '+b[0] + "gia tri: "+ b[1]);
+        
+        }
+        console.log(data);
+        // add con
+       for(let i = 0 ; i < line.length - 1 ; i++){
+       var a = line[i].split(/(\s)/);
+        //console.log(a);
+          for(let j = 0 ; j < a.length/2-1 ;j++){         
+            if(j!=0){
+             var f = '';
+             f= a[0].split("-");
+             f= f[0];
+             var l = '';
+             l = a[j*2];
+        
+             console.log('add con'+f+'->'+l);
+              
+              data[f].addNode(a[j*2]);          
+                 
+           }
+          }
+        
+        }
+        var sub = line[line.length-1];
+         diedau = sub[0];
+         diemtim = sub[2];
+      console.log(diedau+''+diemtim);
+      // console.log('gia tri D:'+data['D'].getcountnode());
+     TTLeoDoi(diedau,diemtim);    
+       }
+ 
+   reader.readAsText(input.files[0])},false);
+ 
+ }
+ 
 
   
 
 
-TTLeoDoi('A','B');
+//TTLeoDoi('A','B');
       function TTLeoDoi(dinhdau , dinhcuoi){
        var q_data = [];
        var danhdau = [];
+       var timduong = [];
        var n = data.length;
        console.log(data.length);
        q_data.push(data['A'].dinh)
@@ -255,11 +322,13 @@ TTLeoDoi('A','B');
          stringhtml+= '<td>'+xetdinh+''+giatri+'</td><td>';
          if(xetdinh == dinhcuoi) {
             str += '<tr><td>'+xetdinh+''+giatri+'</td><td>Kết thúc</td><td></td><td></td></tr>';
+           duongdi(dinhdau,dinhcuoi,timduong);
             break;
          }
          var k = data[xetdinh].nodecon.length;
          var l = [];
         for(let j = 0 ; j < k ; j++){
+          timduong[data[xetdinh].getnode(j)] = xetdinh;
             l.push(data[xetdinh].getnode(j));
             l.sort(function(a,b){return data[a].thamso-data[b].thamso});
             stringhtml+= data[xetdinh].getnode(j)+''+data[data[xetdinh].getnode(j)].thamso;
@@ -287,7 +356,22 @@ TTLeoDoi('A','B');
       i++;
     }  
      document.getElementById("bfsdata").innerHTML= str;
-
+    document.getElementById("duongdi").innerHTML= "Đường đi: "+strtim;
       }
+         
+  var strtim ='';       
+function duongdi(dau,cuoi , timduong){
+  
+   if(timduong[cuoi] == dau) {
+    strtim += dau +'->'+ cuoi; 
+   //  console.log(strtim);
+    return;
+  }
+  
+  duongdi(dau,timduong[cuoi],timduong);
+   strtim += '->'+cuoi+'';
+
+}
+  
 
 </script>

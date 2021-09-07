@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>duyệt cây</title>
+  <title>duyệt cây</title>
 </head>
 <style type="text/css">
   #design{
@@ -14,11 +14,6 @@
     border: 1px solid black;
     border-collapse: collapse;
   }
- /* body{
-   background-image:url('https://i.ytimg.com/vi/1w-rLKb5Cc8/maxresdefault.jpg') ; 
-   background-repeat: no-repeat;
-   background-size: cover;
-  */}
 
 </style>
 <style>
@@ -124,6 +119,7 @@ body {
 }
 </style>
 <body>
+
 <div class="navbar">
   <a href="#home">Home</a>
   <div class="dropdown">
@@ -164,22 +160,23 @@ body {
     </div>
   </div> 
 </div>
-
+<input type="file" name="">
 
 <div id="design">
-  <p style="text-align: left;">Tìm kiếm theo chiều sâu</p>
+  <p style="text-align: left;">Tìm kiếm theo chiều rộng</p>
 <table>
-	<th>Xét đỉnh</th>
-	<th>Kề</th>
-	<th>Danh sách</th>
-	<tbody id="bfsdata"></tbody>
+  <th>Xét đỉnh</th>
+  <th>Kề</th>
+  <th>Danh sách</th>
+  <tbody id="bfsdata"></tbody>
 </table>
+  <p id="duongdi" style="text-align: left;"></p>
 </div>
   
 </body>
 </html>
 <script type="text/javascript">
-	class diem{
+  class diem{
      constructor(dinh){
      this.dinh = dinh; 
      this.nodecon = [];
@@ -189,47 +186,107 @@ body {
         this.nodecon.push(giatri);
        }
         getnode(id){
-       	return this.nodecon[id];
+        return this.nodecon[id];
+       }
+       getcountnode(){
+        return this.nodecon.length;
        }
      
 }
  var data  = [];
-   data['A'] = new diem('A');
-   data['A'].addNode('C');
-   data['A'].addNode('D');
-   data['A'].addNode('E');
-   data['B'] = new diem('B');
-   data['C'] = new diem('C');
-   data['C'].addNode('F');
-   data['D'] = new diem('D');
-   data['D'].addNode('F');
-   data['D'].addNode('I');
-   data['E'] = new diem('E');
-   data['E'].addNode('G');
-   data['E'].addNode('K');
-   data['F'] = new diem('F');
-   data['F'].addNode('B');
-   data['G'] = new diem('G');
-   data['G'].addNode('B');
-   data['G'].addNode('H');
-   data['H'] = new diem('H');
-   data['H'].addNode('B');
-   data['I'] = new diem('I');
-   data['I'].addNode('B');
-   data['I'].addNode('G');
-   data['K'] = new diem('K');
+ var begin = '';
+ readfiles();
 
+ function readfiles(){
+  var diedau ='';
+  var diemtim ='';
+  const input = document.querySelector('input[type="File"]');
+  input.addEventListener('change',function(e){
+      console.log(input.files);
+      const reader = new FileReader();
+      reader.onload = function(){
+        
+       const lines = reader.result.split('\n').map(function(line){
+          return line.split(/(\s)/);
+        });
+         
+
+       
+
+        const line = reader.result.split('\n');
+        // console.log(line[1]);
+        // var a = line[0].split(/(\s)/);
+        // console.log('lay gia tri dau: '+a[0]);
+        for(let i = 0 ; i < line.length -1; i++){
+        var a = line[i].split(/(\s)/);
+        var b = a[0];
+        data[b] = new diem(b);
+         if(i==0){
+          begin = b; console.log('gia tri begin : '+ begin); 
+         }
+         console.log('Tao diem: '+b);
+        
+        }
+        console.log(data);
+      //tao dinh
+    //    for(let i = 0 ; i < line.length - 1 ; i++){
+    //     var a = lines[i].shift();
+    //     var b = a[0];
+    //      data[b] = new diem(b);
+    //      if(i==0){
+    //       begin = a;
+    //      }
+    //      console.log('Tao diem: '+b);
+    // }
+
+
+      //console.log(line);
+       for(let i = 0 ; i < line.length - 1 ; i++){
+       var a = line[i].split(/(\s)/);
+        console.log(a);
+          for(let j = 0 ; j < a.length/2-1 ;j++){
+                 
+            if(j!=0){
+             var f = '';
+             f= a[0];
+             var l = '';
+             l = a[j*2];
+        
+             console.log('add con'+f+'->'+l);
+              
+              data[f].addNode(a[j*2]);
+            
+                 
+           }
+          }
+        
+
+        }
+        var sub = line[line.length-1];
+         diedau = sub[0];
+         diemtim = sub[2];
+      console.log(diedau+''+diemtim);
+      // console.log('gia tri D:'+data['D'].getcountnode());
+     DFSFunction(diedau,diemtim);    
+       }
+ 
+   reader.readAsText(input.files[0])},false);
+ 
+ }
   
+var strtim ='';
 
-
-DFSFunction('A','B');
+//BFSFunction('A','H');
       function DFSFunction(dinhdau , dinhcuoi){
+       
+      //     console.log('gia tri D:'+data['D'].getcountnode());
        var q_data = [];
        var danhdau = [];
+       var timduong = [];
        var n = data.length;
-       console.log(data.length);
-       q_data.push(data['A'].dinh)
-      console.log(data.length);  
+       //console.log(data.length);
+       var datapush = data[begin].dinh;
+       q_data.push(datapush);
        var i = 1;
 // console.log(q_data.shift());
    
@@ -237,15 +294,20 @@ DFSFunction('A','B');
    //console.log(data[xetdinh].nodecon.length);
   var str = '';
     while(q_data.length > 0){
-         var xetdinh = q_data.pop(); 
+         var xetdinh = q_data.shift(); 
          var stringhtml = '<tr>';
          stringhtml+= '<td>'+xetdinh+'</td><td>';
          if(xetdinh == dinhcuoi) {
+          //timduong[dinhcuoi] = xetdinh;
             str += '<tr><td>'+xetdinh+'</td><td>Kết thúc</td></tr>';
+            duongdi(dinhdau,dinhcuoi,timduong);
             break;
          }
-         var k = data[xetdinh].nodecon.length;
+          console.log(xetdinh);
+         var k = data[xetdinh].getcountnode();
+
         for(let j = 0 ; j < k ; j++){
+          timduong[data[xetdinh].getnode(j)] = xetdinh;
             q_data.push(data[xetdinh].getnode(j));
             stringhtml+= data[xetdinh].getnode(j);
         }
@@ -253,14 +315,30 @@ DFSFunction('A','B');
         console.log(stringhtml);
  
 
-       str += stringhtml+'<td>'+q_data.toString()+'</td></tr>';
+       str += stringhtml+'<td>'+q_data.toString()+'<td></tr>';
       //  break;
         
-      if(i > 100) break;
+
       i++;
     }  
      document.getElementById("bfsdata").innerHTML= str;
-
+    document.getElementById("duongdi").innerHTML= "Đường đi: "+strtim;
       }
 
+     
+function duongdi(dau,cuoi , timduong){
+  
+   if(timduong[cuoi] == dau) {
+    strtim += dau +'->'+ cuoi; 
+   //  console.log(strtim);
+    return;
+  }
+  
+  duongdi(dau,timduong[cuoi],timduong);
+   strtim += '->'+cuoi+'';
+
+}
+  
+
+//console.log('gia tri cua s:'+s);
 </script>
